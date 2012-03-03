@@ -20,7 +20,7 @@ object Morpheme {
   def getMorphemes(surfaceId:Int): Array[MorphemeInfo] = 
     surId_to_morps(surfaceId)
 
-  def postId(info:MorphemeInfo): Short = 
+  def posId(info:MorphemeInfo): Short = 
     (info>>16).toShort
 
   def cost(info:MorphemeInfo): Short = 

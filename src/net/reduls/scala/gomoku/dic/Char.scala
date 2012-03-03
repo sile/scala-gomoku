@@ -3,7 +3,7 @@ package net.reduls.scala.gomoku.dic
 import net.reduls.scala.gomoku.util.Misc._
 
 object Char {
-  final class Category(id:Int, invoke:Boolean, group:Boolean, length:Byte)
+  final class Category(val id:Int, val invoke:Boolean, val group:Boolean, val length:Byte)
 
   private val charCode = 
     withDictionayData("code-map.bin") {
