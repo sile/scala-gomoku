@@ -5,9 +5,10 @@ import net.reduls.scala.gomoku.dic.WordDic
 import net.reduls.scala.gomoku.dic.Unknown
 import net.reduls.scala.gomoku.dic.Matrix
 import net.reduls.scala.gomoku.dic.PartsOfSpeech
+import scala.collection.mutable.ArrayBuffer
 
 object Tagger {
-  private final val BOS_NODES = List[ViterbiNode](ViterbiNode.makeBOSEOS)
+  private final val BOS_NODES = ArrayBuffer[ViterbiNode](ViterbiNode.makeBOSEOS)
 
   def parse(text:String): List[Morpheme] = 
     mapViterbiNode(parseImpl(text)) {
@@ -25,30 +26,29 @@ object Tagger {
   // TODO
   private def mapViterbiNode[T](end:ViterbiNode)(fn:ViterbiNode=>T): List[T] = {
     def recur(cur:ViterbiNode, acc:List[T]): List[T] =
-      if(cur.prev == null)
-        acc
-      else
-        recur(cur.prev, fn(cur) :: acc)
+      if(cur.prev == null) acc
+      else                 recur(cur.prev, fn(cur) :: acc)
     recur(end, Nil)
   }
 
   private def parseImpl(text:String): ViterbiNode = {
-    val nodesAry = Array.fill[List[ViterbiNode]](text.length+1)(Nil)
+    val nodesAry = new Array[ArrayBuffer[ViterbiNode]](text.length+1)
     nodesAry(0) = BOS_NODES
 
     for(i <- 0 until text.length) {
       val prevs = nodesAry(i)
-      if(prevs != Nil) {
-        nodesAry(i) = Nil // release reference for GC
+      if(prevs != null) {
+        nodesAry(i) = null // release reference for GC
           
         var noMatch = true
         val fn = (vn:ViterbiNode) => {
           noMatch = false
           val end = i+vn.length
-          if(vn.isSpace) nodesAry(end) = nodesAry(end) ++ prevs
-          else           nodesAry(end) = nodesAry(end) ++ List(setMinCostNode(vn, prevs))
-//          else           nodesAry(end) = setMinCostNode(vn, prevs) :: nodesAry(end)
-        }
+          if(nodesAry(end) == null) nodesAry(end) = ArrayBuffer()
+          
+          if(vn.isSpace) nodesAry(end) ++= prevs
+          else           nodesAry(end) += setMinCostNode(vn, prevs)
+        }: Unit
         
         WordDic.search(text, i, fn)
         Unknown.search(text, i, noMatch, fn)
@@ -57,7 +57,7 @@ object Tagger {
     setMinCostNode(ViterbiNode.makeBOSEOS, nodesAry(text.length)).prev
   }
 
-  private def setMinCostNode(vn:ViterbiNode, prevs:List[ViterbiNode]): ViterbiNode = {
+  private def setMinCostNode(vn:ViterbiNode, prevs:ArrayBuffer[ViterbiNode]): ViterbiNode = {
     var minPrev:ViterbiNode = null
     var minCost = Integer.MAX_VALUE
     
@@ -68,6 +68,7 @@ object Tagger {
         minPrev = p
       }
     }
+    
     vn.cost += minCost
     vn.prev = minPrev
     vn
