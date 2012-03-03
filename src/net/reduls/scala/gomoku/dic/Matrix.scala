@@ -4,12 +4,13 @@ import net.reduls.scala.gomoku.util.Misc._
 
 object Matrix {
   private val matrix =
-    withDictionayDataAsDIS("matrix.bin") {
-      in => val (leftNum, rightNum) = (in.readInt(), in.readInt())
-            val matrix = Array.ofDim[Short](rightNum, leftNum)
-            for(l <- 0 until leftNum; r <- 0 until rightNum)
-              matrix(r)(l) = in.readShort()
-            matrix
+    withDictionayData("matrix.bin") {
+      (in,leftNum) =>
+        val rightNum = in.readInt()
+        val matrix = Array.ofDim[Short](rightNum, leftNum)
+        for(l <- 0 until leftNum; r <- 0 until rightNum)
+          matrix(r)(l) = in.readShort()
+        matrix
     }
   
   def linkCost(leftId:Short, rightId:Short): Short = 
