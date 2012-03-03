@@ -10,16 +10,29 @@ object Tagger {
   private final val BOS_NODES = List[ViterbiNode](ViterbiNode.makeBOSEOS)
 
   def parse(text:String): List[Morpheme] = 
-    for{vn <- parseImpl(text)
-        surface = text.substring(vn.start, vn.start+vn.length)
-        feature = PartsOfSpeech.get(vn.posId)}
-      yield new Morpheme(surface, feature, vn.start)
+    mapViterbiNode(parseImpl(text)) {
+      vn =>
+        val surface = text.substring(vn.start, vn.start+vn.length)
+        val feature = PartsOfSpeech.get(vn.posId)
+        new Morpheme(surface, feature, vn.start)
+    }
 
   def wakati(text:String): List[String] = 
-    for(vn <- parseImpl(text))
-      yield text.substring(vn.start, vn.start+vn.length)
+    mapViterbiNode(parseImpl(text)) {
+      vn => text.substring(vn.start, vn.start+vn.length)
+    }
+        
+  // TODO
+  private def mapViterbiNode[T](end:ViterbiNode)(fn:ViterbiNode=>T): List[T] = {
+    def recur(cur:ViterbiNode, acc:List[T]): List[T] =
+      if(cur.prev == null)
+        acc
+      else
+        recur(cur.prev, fn(cur) :: acc)
+    recur(end, Nil)
+  }
 
-  private def parseImpl(text:String): List[ViterbiNode] = {
+  private def parseImpl(text:String): ViterbiNode = {
     val nodesAry = Array.fill[List[ViterbiNode]](text.length+1)(Nil)
     nodesAry(0) = BOS_NODES
 
@@ -33,14 +46,15 @@ object Tagger {
           noMatch = false
           val end = i+vn.length
           if(vn.isSpace) nodesAry(end) = nodesAry(end) ++ prevs
-          else           nodesAry(end) = setMinCostNode(vn, prevs) :: nodesAry(end)
+          else           nodesAry(end) = nodesAry(end) ++ List(setMinCostNode(vn, prevs))
+//          else           nodesAry(end) = setMinCostNode(vn, prevs) :: nodesAry(end)
         }
         
         WordDic.search(text, i, fn)
         Unknown.search(text, i, noMatch, fn)
       }
     }
-    setMinCostNode(ViterbiNode.makeBOSEOS, nodesAry(text.length)).prev.reverse.tail
+    setMinCostNode(ViterbiNode.makeBOSEOS, nodesAry(text.length)).prev
   }
 
   private def setMinCostNode(vn:ViterbiNode, prevs:List[ViterbiNode]): ViterbiNode = {
@@ -55,7 +69,7 @@ object Tagger {
       }
     }
     vn.cost += minCost
-    vn.prev = minPrev :: minPrev.prev // XXX: 簡潔だけど非効率
+    vn.prev = minPrev
     vn
   }
 }

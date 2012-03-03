@@ -6,7 +6,7 @@ final class ViterbiNode(val start:Int,
                         val posId:Short,
                         val isSpace:Boolean) {
   var cost:Int = wordCost
-  var prev:List[ViterbiNode] = Nil
+  var prev:ViterbiNode = null
 }
 
 object ViterbiNode {
