@@ -23,7 +23,7 @@ object SurfaceId {
     def recur(node:Int, i:Int, id:Int): Unit = {
       val idadj = 
         if(isTerminal(node)) {
-          WordDic.eachViterbiNode(id+1, start, (i-start).toShort, false, fn)
+          WordDic.eachViterbiNode(id, start, (i-start).toShort, false, fn)
           1
         } else
           0
@@ -32,7 +32,7 @@ object SurfaceId {
         val arc = Char.code(text(i))
         val next = base(node) + arc
         if(chck(next) == arc)
-          recur(next, i+1, id+siblingTotal(node)+idadj)
+          recur(next, i+1, id+siblingTotal(next)+idadj)
       }
     }
     recur(0, start, idOffset)

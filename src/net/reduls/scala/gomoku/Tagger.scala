@@ -35,6 +35,7 @@ object Tagger {
           if(vn.isSpace) nodesAry(end) = nodesAry(end) ++ prevs
           else           nodesAry(end) = setMinCostNode(vn, prevs) :: nodesAry(end)
         }
+        
         WordDic.search(text, i, fn)
         Unknown.search(text, i, noMatch, fn)
       }
@@ -45,7 +46,7 @@ object Tagger {
   private def setMinCostNode(vn:ViterbiNode, prevs:List[ViterbiNode]): ViterbiNode = {
     var minPrev:ViterbiNode = null
     var minCost = Integer.MAX_VALUE
-
+    
     for(p <- prevs) {
       val cost = p.cost + Matrix.linkCost(p.posId, vn.posId)
       if(cost < minCost) {
@@ -55,7 +56,6 @@ object Tagger {
     }
     vn.cost += minCost
     vn.prev = minPrev :: minPrev.prev // XXX: 簡潔だけど非効率
-    
     vn
   }
 }
