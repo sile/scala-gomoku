@@ -15,6 +15,10 @@ object Tagger {
         feature = PartsOfSpeech.get(vn.posId)}
       yield new Morpheme(surface, feature, vn.start)
 
+  def wakati(text:String): List[String] = 
+    for(vn <- parseImpl(text))
+      yield text.substring(vn.start, vn.start+vn.length)
+
   private def parseImpl(text:String): List[ViterbiNode] = {
     val nodesAry = Array.fill[List[ViterbiNode]](text.length+1)(Nil)
     nodesAry(0) = BOS_NODES
