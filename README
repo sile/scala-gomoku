@@ -28,8 +28,8 @@ $ scala -cp scala-gomoku-x.x.x.jar net.reduls.scala.gomoku.bin.Gomoku -wakati < 
 package net.reduls.scala.gomoku
 
 object Tagger {
-  def parse(text:String): List[Morpheme]
-  def wakati(text:String): List[String]
+  def parse(text:String): List[Morpheme]  // 形態素解析
+  def wakati(text:String): List[String]   // 分かち書き
 }
 
 case class Morpheme(val surface:String, val feature:String, val start:Int)
