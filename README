@@ -18,10 +18,10 @@ $ ant
 
 【形態素解析(コマンドライン)】
 # 形態素解析
-$ scala -cp scala-gomoku-x.x.x.jar net.reduls.scala.gomoku.bin.Gomoku < 解析対象テキスト
+$ scala -cp scala-gomoku-{ver}.jar net.reduls.scala.gomoku.bin.Gomoku < 解析対象テキスト
 
 # 分かち書き
-$ scala -cp scala-gomoku-x.x.x.jar net.reduls.scala.gomoku.bin.Gomoku -wakati < 解析対象テキスト
+$ scala -cp scala-gomoku-{ver}.jar net.reduls.scala.gomoku.bin.Gomoku -wakati < 解析対象テキスト
 
 
 【API】
