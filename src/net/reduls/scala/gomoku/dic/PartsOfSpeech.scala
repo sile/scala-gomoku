@@ -8,5 +8,6 @@ object PartsOfSpeech {
       in => Source.fromInputStream(in).getLines.toArray
     }
   
-  def get(posId:Int): String = partsOfSpeeches(posId)
+  def apply(posId:Int): String = partsOfSpeeches(posId)
 }
+

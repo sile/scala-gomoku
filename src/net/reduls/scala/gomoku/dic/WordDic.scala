@@ -3,8 +3,9 @@ package net.reduls.scala.gomoku.dic
 object WordDic {
   type Callback = ViterbiNode => Unit
   
-  def search(text:String, start:Int, fn: Callback) {
-    SurfaceId.eachCommonPrefix(text, start, fn)
+  def search(text:String, start:Int)(fn: Callback) {
+    var matched = SurfaceId.eachCommonPrefix(text, start, fn)
+    Unknown.search(text, start, matched, fn)
   }
     
   def eachViterbiNode(surfaceId:Int, start:Int, end:Int, isSpace:Boolean, fn: Callback) {

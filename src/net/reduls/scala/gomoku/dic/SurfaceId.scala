@@ -11,8 +11,8 @@ object SurfaceId {
       (_, idOffset) => idOffset
     }
 
-  def eachCommonPrefix(text:String, start:Int, fn: WordDic.Callback) {
-    def recur(node:Int, i:Int, id:Int) {
+  def eachCommonPrefix(text:String, start:Int, fn: WordDic.Callback): Boolean = {
+    def recur(node:Int, i:Int, id:Int, matchCount:Int): Boolean = {
       val idadj = 
         if(isTerminal(node)) {
           WordDic.eachViterbiNode(id, start, i, false, fn)
@@ -20,14 +20,16 @@ object SurfaceId {
         } else
           0
 
-      if(i < text.length) {
-        val arc = Char.code(text(i))
-        val next = base(node) + arc
-        if(chck(next) == arc)
-          recur(next, i+1, id+siblingTotal(next)+idadj)
-      }
+      if(i == text.length)
+        return matchCount+idadj > 0
+
+      val arc = Char.code(text(i))
+      val next = base(node) + arc
+      if(chck(next) != arc)
+        return matchCount+idadj > 0
+      recur(next, i+1, id+siblingTotal(next)+idadj, matchCount+idadj)
     }
-    recur(0, start, idOffset)
+    recur(0, start, idOffset, 0)
   }
   
   private def chck(node:Int): Char = ((nodes(node)>>24)&0xFFFF).toChar
