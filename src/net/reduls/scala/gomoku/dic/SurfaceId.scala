@@ -6,7 +6,7 @@ import net.reduls.scala.gomoku.util.Misc._
 object SurfaceId {
   private val nodes =
     withDictionayData("surface-id.bin") {
-      (in, nodeCount) => {for(_ <- 1 to nodeCount) yield in.readLong}.toArray
+      (in, nodeCount) => for(_ <- Array.range(0, nodeCount)) yield in.readLong
     }
 
   private val idOffset = 

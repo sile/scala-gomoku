@@ -8,10 +8,9 @@ object Morpheme {
   private val surId_to_morps = 
     withDictionayData("id-morphemes-map.bin", "morpheme.bin") {
       (in1, surfaceIdLimit, in2, morphemeCount) => 
-        {for(_ <- 1 to surfaceIdLimit; length = in1.readByte) yield
-           {for(_ <- 1 to length)
-             yield encodeInfo(in2.readShort, in2.readShort)}.toArray
-       }.toArray
+        for(_ <- Array.range(0, surfaceIdLimit); length = in1.readByte) yield
+          for(_ <- Array.range(0, length))
+            yield encodeInfo(in2.readShort, in2.readShort)
     }
 
   private def encodeInfo(posId:Short, cost:Short): MorphemeInfo = 

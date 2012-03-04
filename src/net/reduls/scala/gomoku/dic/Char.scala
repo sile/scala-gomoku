@@ -7,18 +7,18 @@ object Char {
 
   private val charCode = 
     withDictionayData("code-map.bin") {
-      (in, codeLimit) => {for(_ <- 1 to codeLimit) yield in.readChar}.toArray
+      (in, codeLimit) => for(_ <- Array.range(0, codeLimit)) yield in.readChar
     }
 
   private val (categories, compatibleMasks) = 
     withDictionayData("category.bin", "code.bin") {
       (in1, charCategoryNum, in2, codeLimit) =>
         val charCategories = 
-          {for(i <- 0 until charCategoryNum) 
-             yield new Category(i, in1.readByte==1, in1.readByte==1, in1.readByte)}.toArray
+          for(i <- Array.range(0, charCategoryNum))
+            yield new Category(i, in1.readByte==1, in1.readByte==1, in1.readByte)
 
-        val pair = {for(i <- 0 until codeLimit) 
-                      yield (charCategories(in2.readByte), in2.readShort)}.toArray.unzip
+        val pair = (for(i <- Array.range(0, codeLimit))
+                      yield (charCategories(in2.readByte), in2.readShort)).unzip
         (pair._1.toArray, pair._2.toArray)
     }
 
