@@ -1,7 +1,7 @@
 package net.reduls.scala.gomoku.dic
 
 final class ViterbiNode(val start:Int,
-                        val length:Short,
+                        val end:Int,
                         wordCost:Short,
                         val posId:Short,
                         val isSpace:Boolean) {

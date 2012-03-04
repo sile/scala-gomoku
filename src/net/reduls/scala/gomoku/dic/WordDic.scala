@@ -7,6 +7,6 @@ object WordDic {
     
   def eachViterbiNode(surfaceId:Int, start:Int, length:Short, isSpace:Boolean, fn: Callback): Unit = {
     for(m <- Morpheme.getMorphemes(surfaceId)) 
-      fn(new ViterbiNode(start, length, Morpheme.cost(m), Morpheme.posId(m), isSpace))
+      fn(new ViterbiNode(start, start+length, Morpheme.cost(m), Morpheme.posId(m), isSpace))
   }
 }
