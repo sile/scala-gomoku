@@ -3,17 +3,10 @@
   <property name="version" value="0.0.1" />
   <property name="src" value="src" />
   <property name="classes" value="classes" />
-
-  <property name="scala.lib" value="/usr/share/java/scala-library.jar" />
-  <property name="scala.compiler" value="/usr/share/java/scala-compiler.jar" />
+  <property environment="env" />
 
   <target name="init">
-    <taskdef resource="scala/tools/ant/antlib.xml">
-      <classpath>
-        <pathelement location="${scala.lib}" />
-        <pathelement location="${scala.compiler}" />
-      </classpath>
-    </taskdef>
+    <taskdef resource="scala/tools/ant/antlib.xml" />
   </target>
 
   <target name="compile" depends="init">
