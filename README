@@ -1,0 +1,43 @@
+[名前]
+・Gomoku (Scala)
+
+[バージョン]
+・0.0.1
+
+
+[概要]
+・辞書込みのJava形態素解析器GomokuのScala版
+・詳細はGomokuのドキュメントを参照
+　・Gomoku: https://github.com/sile/gomoku/
+
+
+[ビルド方法]
+$ export CLASSPATH=`./scala_classpath.sh`  # scala-library.jarおよびscala-compiler.jarにパスが通るようにする
+$ ant
+
+
+[形態素解析(コマンドライン)]
+# 形態素解析
+$ scala -cp scala-gomoku-x.x.x.jar net.reduls.scala.gomoku.bin.Gomoku < 解析対象テキスト
+
+# 分かち書き
+$ scala -cp scala-gomoku-x.x.x.jar net.reduls.scala.gomoku.bin.Gomoku -wakati < 解析対象テキスト
+
+
+[API]
+package net.reduls.scala.gomoku;
+
+object Tagger {
+  def parse(text:String): List[Morpheme]
+  def wakati(text:String): List[String]
+}
+
+case class Morpheme(val surface:String, val feature:String, val start:Int)
+
+
+[ライセンス]
+・Gomoku本体(ソースファイル及びjarファイル)
+　・MITライセンス: 詳細はCOPYINGファイルを参照
+
+・Gomokuに含まれるIPADICバイナリデータ
+　・IPADICのライセンスに準拠: 詳細はCOPYING.ipadicを参照
