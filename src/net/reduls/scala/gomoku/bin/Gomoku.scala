@@ -6,8 +6,9 @@ import net.reduls.scala.gomoku.Tagger
 object Gomoku {
   def main(args:Array[String]) {
     args match {
-      case Array("-wakati", _*) => wakati()
-      case _                    => parse()
+      case Array("-wakati") => wakati()
+      case Array()          => parse()
+      case _                => Console.err.println("Usage: scala net.reduls.scala.gomoku.bin.Gomoku [-wakati]")
     }
   }
   
