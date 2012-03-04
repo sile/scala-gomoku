@@ -15,7 +15,7 @@ object Tagger {
       vn =>
         val surface = text.substring(vn.start, vn.end)
         val feature = PartsOfSpeech.get(vn.posId)
-        new Morpheme(surface, feature, vn.start)
+        Morpheme(surface, feature, vn.start)
     }
 
   def wakati(text:String): List[String] = 
@@ -37,15 +37,15 @@ object Tagger {
     for(i <- 0 until text.length) {
       val prevs = nodesAry(i)
       if(prevs.isEmpty == false) {
-        var noMatch = true
+        var matched = false
         val fn = (vn:ViterbiNode) => {
-          noMatch = false
+          matched = true
           if(vn.isSpace) nodesAry(vn.end) ++= prevs
           else           nodesAry(vn.end) += setMinCostNode(vn, prevs)
         }: Unit
         
         WordDic.search(text, i, fn)
-        Unknown.search(text, i, noMatch, fn)
+        Unknown.search(text, i, matched, fn)
       }
       nodesAry(i) = null
     }

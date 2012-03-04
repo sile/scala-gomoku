@@ -7,15 +7,15 @@ object SurfaceId {
     }
 
   private val idOffset = 
-    util.withDictionaryDataWithCount("category.bin") {
+    Util.withDictionaryDataWithCount("category.bin") {
       (_, idOffset) => idOffset
     }
 
-  def eachCommonPrefix(text:String, start:Int, fn: WordDic.Callback): Unit = {
-    def recur(node:Int, i:Int, id:Int): Unit = {
+  def eachCommonPrefix(text:String, start:Int, fn: WordDic.Callback) {
+    def recur(node:Int, i:Int, id:Int) {
       val idadj = 
         if(isTerminal(node)) {
-          WordDic.eachViterbiNode(id, start, (i-start).toShort, false, fn)
+          WordDic.eachViterbiNode(id, start, i, false, fn)
           1
         } else
           0
