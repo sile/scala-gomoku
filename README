@@ -5,7 +5,7 @@
 ・0.0.1
 
 
-[概要]
+【概要】
 ・辞書込みのJava形態素解析器GomokuのScala版
 ・詳細はGomokuのドキュメントを参照
 　・Gomoku: https://github.com/sile/gomoku/
