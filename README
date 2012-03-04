@@ -1,7 +1,7 @@
-[名前]
+【名前】
 ・scala-gomoku
 
-[バージョン]
+【バージョン】
 ・0.0.1
 
 
@@ -11,12 +11,12 @@
 　・Gomoku: https://github.com/sile/gomoku/
 
 
-[ビルド方法]
+【ビルド方法】
 $ export CLASSPATH=`./scala_classpath.sh`  # scala-library.jarおよびscala-compiler.jarにパスが通るようにする
 $ ant
 
 
-[形態素解析(コマンドライン)]
+【形態素解析(コマンドライン)】
 # 形態素解析
 $ scala -cp scala-gomoku-x.x.x.jar net.reduls.scala.gomoku.bin.Gomoku < 解析対象テキスト
 
@@ -24,8 +24,8 @@ $ scala -cp scala-gomoku-x.x.x.jar net.reduls.scala.gomoku.bin.Gomoku < 解析�
 $ scala -cp scala-gomoku-x.x.x.jar net.reduls.scala.gomoku.bin.Gomoku -wakati < 解析対象テキスト
 
 
-[API]
-package net.reduls.scala.gomoku;
+【API】
+package net.reduls.scala.gomoku
 
 object Tagger {
   def parse(text:String): List[Morpheme]
@@ -35,7 +35,7 @@ object Tagger {
 case class Morpheme(val surface:String, val feature:String, val start:Int)
 
 
-[ライセンス]
+【ライセンス】
 ・Gomoku本体(ソースファイル及びjarファイル)
 　・MITライセンス: 詳細はCOPYINGファイルを参照
 
