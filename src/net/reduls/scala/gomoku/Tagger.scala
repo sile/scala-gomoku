@@ -28,8 +28,8 @@ object Tagger {
       val prevs = nodesAry(i)
       if(prevs.isEmpty == false)
         WordDic.search(text, i) {
-          vn => if(vn.isSpace) nodesAry(vn.end) ++= prevs
-                else           nodesAry(vn.end) += setMinCostNode(vn, prevs)          
+          (space, vn) => if(space) nodesAry(vn.end) ++= prevs
+                         else      nodesAry(vn.end) += setMinCostNode(vn, prevs)
         }
       nodesAry(i) = null
     }
