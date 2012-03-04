@@ -11,9 +11,7 @@ object Tagger {
 
   def parse(text:String): List[Morpheme] = 
     mapViterbiNode(parseImpl(text)) {
-      vn => val surface = text.substring(vn.start, vn.end)
-            val feature = PartsOfSpeech(vn.posId)
-            Morpheme(surface, feature, vn.start)
+      vn => Morpheme(text.substring(vn.start, vn.end), PartsOfSpeech(vn.posId), vn.start)
     }
 
   def wakati(text:String): List[String] = 
@@ -33,7 +31,6 @@ object Tagger {
         }
       nodesAry(i) = null
     }
-    
     setMinCostNode(ViterbiNode.makeBOSEOS, nodesAry(text.length)).prev
   }
 
