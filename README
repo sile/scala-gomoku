@@ -36,8 +36,8 @@ case class Morpheme(val surface:String, val feature:String, val start:Int)
 
 
 【ライセンス】
-・Gomoku本体(ソースファイル及びjarファイル)
+・scala-gomoku本体(ソースファイル及びjarファイル)
 　・MITライセンス: 詳細はCOPYINGファイルを参照
 
-・Gomokuに含まれるIPADICバイナリデータ
+・scala-gomokuに含まれるIPADICバイナリデータ
 　・IPADICのライセンスに準拠: 詳細はCOPYING.ipadicを参照
