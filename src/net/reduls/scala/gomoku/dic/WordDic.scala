@@ -4,7 +4,7 @@ object WordDic {
   type Callback = ViterbiNode => Unit
   
   def search(text:String, start:Int)(fn: Callback) {
-    var matched = SurfaceId.eachCommonPrefix(text, start, fn)
+    val matched = SurfaceId.eachCommonPrefix(text, start, fn)
     Unknown.search(text, start, matched, fn)
   }
     
