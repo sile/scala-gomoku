@@ -36,7 +36,7 @@ object Tagger {
                                                  case _ => ArrayBuffer[ViterbiNode]()}
     for(i <- 0 until text.length) {
       val prevs = nodesAry(i)
-      if(nodesAry.isEmpty == false) {
+      if(prevs.isEmpty == false) {
         var noMatch = true
         val fn = (vn:ViterbiNode) => {
           noMatch = false
@@ -49,6 +49,7 @@ object Tagger {
       }
       nodesAry(i) = null
     }
+    
     setMinCostNode(ViterbiNode.makeBOSEOS, nodesAry(text.length)).prev
   }
 

@@ -1,11 +1,6 @@
 package net.reduls.scala.gomoku.dic
 
-final class ViterbiNode(val start:Int,
-                        val end:Int,
-                        wordCost:Short,
-                        val posId:Short,
-                        val isSpace:Boolean) {
-  var cost:Int = wordCost
+final class ViterbiNode(val start:Int, val end:Int, var cost:Int, val posId:Short, val isSpace:Boolean) {
   var prev:ViterbiNode = null
 }
 

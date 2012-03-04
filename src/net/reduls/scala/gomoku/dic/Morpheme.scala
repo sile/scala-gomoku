@@ -1,27 +1,18 @@
 package net.reduls.scala.gomoku.dic
 
-import net.reduls.scala.gomoku.util.Misc._
-
 object Morpheme {
-  type MorphemeInfo = Int
-
-  private val surId_to_morps = 
-    withDictionayData("id-morphemes-map.bin", "morpheme.bin") {
+  private val idToMorps = 
+    Util.withDictionaryDataWithCount("id-morphemes-map.bin", "morpheme.bin") {
       (in1, surfaceIdLimit, in2, morphemeCount) => 
-        for(_ <- Array.range(0, surfaceIdLimit); length = in1.readByte) yield
-          for(_ <- Array.range(0, length))
-            yield encodeInfo(in2.readShort, in2.readShort)
+        Array.tabulate(surfaceIdLimit)(_ => 
+          Array.tabulate(in1.readByte)(_ => 
+            encodeInfo(in2.readShort, in2.readShort)))
     }
 
-  private def encodeInfo(posId:Short, cost:Short): MorphemeInfo = 
+  private def encodeInfo(posId:Short, cost:Short): Int = 
     (posId << 16) + (cost & 0xFFFF)
 
-  def getMorphemes(surfaceId:Int): Array[MorphemeInfo] = 
-    surId_to_morps(surfaceId)
-
-  def posId(info:MorphemeInfo): Short = 
-    (info>>16).toShort
-
-  def cost(info:MorphemeInfo): Short = 
-    (info&0xFFFF).toShort
+  def getMorphemes(surfaceId:Int): Array[Int] = idToMorps(surfaceId)
+  def posId(info:Int): Short = (info>>16).toShort
+  def cost(info:Int): Short = (info&0xFFFF).toShort
 }
