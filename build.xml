@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="gomoku" default="jar">
+  <property name="version" value="0.0.1" />
+  <property name="src" value="src" />
+  <property name="classes" value="classes" />
+
+  <property name="scala.lib" value="/usr/share/java/scala-library.jar" />
+  <property name="scala.compiler" value="/usr/share/java/scala-compiler.jar" />
+
+  <target name="init">
+    <taskdef resource="scala/tools/ant/antlib.xml">
+      <classpath>
+        <pathelement location="${scala.lib}" />
+        <pathelement location="${scala.compiler}" />
+      </classpath>
+    </taskdef>
+  </target>
+
+  <target name="compile" depends="init">
+    <mkdir dir="${classes}"/>
+    <fsc srcdir="${src}"
+         destdir="${classes}">
+    </fsc>
+    <javac srcdir="${src}" 
+           includeAntRuntime="no"
+           destdir="${classes}">
+      <classpath>
+        <pathelement path="${scala.lib}" />
+      </classpath>
+    </javac>
+    <copy todir="${classes}/net/reduls/scala/gomoku/data">
+      <fileset dir="${src}/net/reduls/scala/gomoku/data">
+        <include name="*.bin" />
+      </fileset>
+    </copy>
+    <copy todir="${classes}">
+      <fileset dir="${src}/../..">
+        <include name="COPYING*" />
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="jar" depends="compile">
+    <jar jarfile="scala-gomoku-${version}.jar" basedir="${classes}">
+      <metainf dir=".">
+	<include name="COPYING" />
+      </metainf>
+    </jar>
+  </target>
+  
+  <target name="run" depends="compile">
+    <java classname="Main"
+          classpath="${classes}" >
+      <classpath>
+        <pathelement path="${scala.lib}" />
+      </classpath>
+      <arg path="build.xml" />
+      <arg path="src/Main.java" />
+    </java>
+  </target>
+  
+  <target name="clean">
+    <delete dir="${classes}"/>
+  </target>
+</project>
