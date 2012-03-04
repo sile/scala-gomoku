@@ -11,16 +11,7 @@
 
   <target name="compile" depends="init">
     <mkdir dir="${classes}"/>
-    <fsc srcdir="${src}"
-         destdir="${classes}">
-    </fsc>
-    <javac srcdir="${src}" 
-           includeAntRuntime="no"
-           destdir="${classes}">
-      <classpath>
-        <pathelement path="${scala.lib}" />
-      </classpath>
-    </javac>
+    <fsc srcdir="${src}" destdir="${classes}" />
     <copy todir="${classes}/net/reduls/scala/gomoku/data">
       <fileset dir="${src}/net/reduls/scala/gomoku/data">
         <include name="*.bin" />
