@@ -32,7 +32,7 @@ object SurfaceId {
     recur(0, start, idOffset, 0)
   }
   
-  private def chck(node:Int): Char = ((nodes(node)>>24)&0xFFFF).toChar
+  private def chck(node:Int): Char = (nodes(node)>>24).toChar
   private def base(node:Int): Int = (nodes(node)&0xFFFFFF).toInt
   private def isTerminal(node:Int): Boolean = ((nodes(node)>>40)&0x1) == 0x1
   private def siblingTotal(node:Int): Int = (nodes(node)>>41).toInt
